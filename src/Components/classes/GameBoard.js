@@ -53,7 +53,7 @@ class Gameboard {
       let ship = new Ship(length);
 
       this.board[x][y] = ship;
-
+      this.ships.push(ship);
       // this two for loops make sure that after the ship is placed they will occupy the remaining grid
       // make sure that after placing a ship it will occupy the parts of the grid too
       for (let i = y + validMove[0]; i <= y + validMove[1]; i++) {
@@ -91,24 +91,13 @@ class Gameboard {
       while (!placed) {
         let row = Math.floor(Math.random() * 10);
         let col = Math.floor(Math.random() * 10);
-        if (
-          this.placeShip(i, row, col) === "occupied" ||
-          this.placeShip(i, row, col) === "Cannot place ship here"
-        ) {
+
+        let ship = this.placeShip(i, row, col);
+        if (ship === "occupied" || ship === "Cannot place ship here") {
+          placed = false;
           continue;
         }
-        this.placeShip(i, row, col);
         placed = true;
-      }
-    }
-  }
-
-  initializedShip() {
-    for (const board of this.board) {
-      for (const ship of board) {
-        if (!this.ships.includes(ship) && ship.length !== 0) {
-          this.ships.push(ship);
-        }
       }
     }
   }

@@ -12,14 +12,12 @@ const initialPlayers = () => {
   jeremy.board.placeShipRandomly();
   console.log(jeremy.board.getBoard());
 
-  jeremy.board.initializedShip();
   console.log(jeremy.board.getAllShip());
   renderPlayerBoard(jeremy.board.getBoard(), playerBoard);
 
   const computer = new Player("computer");
   computer.board.initializedBoard();
   computer.board.placeShipRandomly();
-  computer.board.initializedShip();
   console.log(computer.board.getAllShip());
   console.log(computer.board.getBoard());
   renderPlayerBoard(computer.board.getBoard(), computerBoard);
