@@ -61,7 +61,7 @@ describe("Gameboard", () => {
     expect(gameboard.recieveAttack(9, 3)).toBe("missed");
   });
   test("should display missed with coordinates of 8 and 8", () => {
-    expect(gameboard.recieveAttack(9, 9)).toBe("hit");
+    expect(gameboard.recieveAttack(2, 2)).toBe("hit");
   });
 
   test("should display missed with coordinates of 8 and 8", () => {
