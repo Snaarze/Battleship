@@ -33,36 +33,63 @@ class Gameboard {
 
     // pseudocode
     let validMove = "";
-    // create a for loop which valid moves are we using by comparin
+    // create a for loop which valid moves ar  we using by comparin
     // the length being passed as arguments, then store it as temporary variable
     if (length in validPlacement) {
       validMove = validPlacement[length];
     }
 
-    // make a program that will place a ship that will not over board the ship
-    if (
-      validMove[0] + x >= 0 &&
-      validMove[0] + x <= 9 &&
-      validMove[1] + y >= 0 &&
-      validMove[1] + y <= 9
-    ) {
-      for (let i = y + validMove[0]; i <= y + validMove[1]; i++) {
-        if (this.board[x][i]?.length !== 0) {
-          return "occupied";
+    if (position === "horizontal") {
+      // make a program that will place a ship that will not over board the ship
+      if (
+        validMove[0] + x >= 0 &&
+        validMove[0] + x <= 9 &&
+        validMove[1] + y >= 0 &&
+        validMove[1] + y <= 9
+      ) {
+        for (let i = y + validMove[0]; i <= y + validMove[1]; i++) {
+          if (this.board[x][i]?.length !== 0) {
+            return "occupied";
+          }
         }
+
+        let ship = new Ship(length);
+
+        this.board[x][y] = ship;
+        this.ships.push(ship);
+        // this two for loops make sure that after the ship is placed they will occupy the remaining grid
+        // make sure that after placing a ship it will occupy the parts of the grid too
+        for (let i = y + validMove[0]; i <= y + validMove[1]; i++) {
+          this.board[x][i] = ship;
+        }
+
+        return this.board[x][y];
       }
+    } else if (position === "vertical") {
+      if (
+        validMove[0] + x >= 0 &&
+        validMove[1] + x <= 9 &&
+        validMove[1] + y >= 0 &&
+        validMove[1] + y <= 9
+      ) {
+        for (let i = x + validMove[0]; i <= x + validMove[1]; i++) {
+          if (this.board[i][y]?.length !== 0) {
+            return "occupied";
+          }
+        }
 
-      let ship = new Ship(length);
+        let ship = new Ship(length);
 
-      this.board[x][y] = ship;
-      this.ships.push(ship);
-      // this two for loops make sure that after the ship is placed they will occupy the remaining grid
-      // make sure that after placing a ship it will occupy the parts of the grid too
-      for (let i = y + validMove[0]; i <= y + validMove[1]; i++) {
-        this.board[x][i] = ship;
+        this.board[x][y] = ship;
+        this.ships.push(ship);
+        // this two for loops make sure that after the ship is placed they will occupy the remaining grid
+        // make sure that after placing a ship it will occupy the parts of the grid too
+        for (let i = x + validMove[0]; i <= x + validMove[1]; i++) {
+          this.board[i][y] = ship;
+        }
+
+        return this.board[x][y];
       }
-
-      return this.board[x][y];
     }
 
     // if this doesnt match any condition above it means that the ship is over the board
@@ -96,8 +123,10 @@ class Gameboard {
       while (!placed) {
         let row = Math.floor(Math.random() * 10);
         let col = Math.floor(Math.random() * 10);
+        let randomNum = Math.floor(Math.random() * 2) + 1;
 
-        let ship = this.placeShip(i, row, col, "horizontal");
+        let position = randomNum <= 1 ? "horizontal" : "vertical";
+        let ship = this.placeShip(i, row, col, position);
         if (ship === "occupied" || ship === "Cannot place ship here") {
           console.log(ship);
           placed = false;
@@ -114,6 +143,17 @@ class Gameboard {
 
   getAllAttacks() {
     return this.allAttacks;
+  }
+
+  isAllShipSunk() {
+    let availableShip = [];
+    for (const board of this.ships) {
+      if (board.isSunk()) {
+        continue;
+      }
+      availableShip.push(board);
+    }
+    return availableShip;
   }
 
   getMissedAttack() {

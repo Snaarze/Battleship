@@ -39,8 +39,8 @@ export default function renderPlayerBoard(player, board) {
       for (let x = 0; x < player.board.getBoard()[i][j].length; x++) {
         if (player.board.getBoard()[i][j].length !== 0) {
           if (
-            player.board.getBoard()[i][j].length in color
-            // player.name !== "computer"
+            player.board.getBoard()[i][j].length in color &&
+            player.name !== "computer"
           ) {
             col.style.backgroundColor =
               color[player.board.getBoard()[i][j].length];
@@ -89,14 +89,9 @@ export function switchPlayers(player1, player2) {
 }
 
 // this function checks if the players ships has been sunk
-// function isAllShipSunk(player1, player2) {
-//   if (
-//     listOfSunkShip.childElementCount === player1.board.getAllShip().length ||
-//     listOfSunkShip.childElementCount === player2.board.getAllShip().length
-//   ) {
-//     return true;
-//   }
-// }
+function isAllShipSunk(player) {
+  return player.board.isAllShipSunk().length === 0;
+}
 
 // this function add event listeners to interact with the dom adn player borad
 export function listener(game, player1, player2) {
@@ -110,7 +105,9 @@ function attack(e, game, player1, player2) {
   currentTurn.textContent = game.getActivePlayer();
   if (
     !e.target.hasAttribute("row") ||
-    game.getActivePlayer() !== player1.name
+    game.getActivePlayer() !== player1.name ||
+    isAllShipSunk(player1) ||
+    isAllShipSunk(player2)
   ) {
     return;
   }
@@ -125,8 +122,6 @@ function attack(e, game, player1, player2) {
     player2.board.getSpecificBoard(row, col).length !== 0 &&
     player2.board.getSpecificBoard(row, col).isSunk()
   ) {
-    if (isAllShipSunk(player1, player2))
-      return alert(game.getActivePlayer() + " has won the game!");
   }
 
   game.switchTurn();
@@ -151,7 +146,7 @@ function attack(e, game, player1, player2) {
 
     game.switchTurn();
     currentTurn.textContent = game.getActivePlayer();
-  }, 1000);
+  }, 0);
 }
 
 function removeListener(playerBoard) {
@@ -182,7 +177,6 @@ export function shuffle(player, computer) {
 
     player.board.resetBoard();
     player.board.placeShipRandomly();
-    console.log(player.board.getBoard());
     renderBoard(playerBoard);
     renderPlayerBoard(player, playerBoard);
     renderBoard(computerBoard);
@@ -202,9 +196,21 @@ export function startGame(game, jeremy, computer) {
 }
 
 export function displayAvailableShips(player, holder) {
+  let shipName = {
+    5: "Carrier",
+    4: "Battleship",
+    3: "Cruiser",
+    2: "Submarine",
+    1: "Destroyer",
+  };
   for (let i = 0; i < player.board.getAllShip().length; i++) {
     const li = document.createElement("li");
     if (!player.board.getAllShip()[i].isSunk()) {
+      if (player.board.getAllShip()[i].length in shipName) {
+        li.classList.add(
+          player.name + "-" + shipName[player.board.getAllShip()[i].length],
+        );
+      }
       li.textContent =
         player.board.getAllShip()[i].name +
         " " +
