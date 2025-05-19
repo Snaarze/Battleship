@@ -126,7 +126,8 @@ function attack(e, game, player1, player2) {
   }
 
   if (isAllShipSunk(player1) || isAllShipSunk(player2)) {
-    return alert(game.getActivePlayer());
+    alert(game.getActivePlayer());
+    return;
   }
 
   game.switchTurn();
