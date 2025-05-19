@@ -7,7 +7,6 @@ const currentTurn = document.querySelector(".turn-indicator");
 const shuffleBtn = document.querySelector(".shuffle-btn");
 const startBtn = document.querySelector(".start-btn");
 export const newGameBtn = document.querySelector(".new-game-btn");
-export const listOfSunkShip = document.querySelector("list-of-sunk-ships");
 
 export const playerAvailableShips = document.querySelector(
   ".player-list-of-sunk-ships",
@@ -126,11 +125,6 @@ function attack(e, game, player1, player2) {
     player2.board.getSpecificBoard(row, col).length !== 0 &&
     player2.board.getSpecificBoard(row, col).isSunk()
   ) {
-    const sunkShips = document.createElement("li");
-    sunkShips.textContent =
-      player2.board.getSpecificBoard(row, col).name + " has been sunk";
-
-    listOfSunkShip.appendChild(sunkShips);
     if (isAllShipSunk(player1, player2))
       return alert(game.getActivePlayer() + " has won the game!");
   }
@@ -185,8 +179,10 @@ export function shuffle(player, computer) {
       computer.board.placeShipRandomly();
       isStart = false;
     }
+
     player.board.resetBoard();
     player.board.placeShipRandomly();
+    console.log(player.board.getBoard());
     renderBoard(playerBoard);
     renderPlayerBoard(player, playerBoard);
     renderBoard(computerBoard);

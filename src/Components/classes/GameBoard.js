@@ -46,14 +46,12 @@ class Gameboard {
       validMove[1] + y >= 0 &&
       validMove[1] + y <= 9
     ) {
-      if (
-        !this.board[x][y + validMove[0]] ||
-        !this.board[x][y + validMove[1]] ||
-        (length > 1 && this.board[x][y + validMove[0] + 1].length !== 0) ||
-        (length > 1 && this.board[x][y + validMove[1] - 1].length !== 0)
-      ) {
-        return "occupied";
+      for (let i = y + validMove[0]; i <= y + validMove[1]; i++) {
+        if (this.board[x][i]?.length !== 0) {
+          return "occupied";
+        }
       }
+
       let ship = new Ship(length);
 
       this.board[x][y] = ship;
@@ -99,8 +97,9 @@ class Gameboard {
         let row = Math.floor(Math.random() * 10);
         let col = Math.floor(Math.random() * 10);
 
-        let ship = this.placeShip(i, row, col);
+        let ship = this.placeShip(i, row, col, "horizontal");
         if (ship === "occupied" || ship === "Cannot place ship here") {
+          console.log(ship);
           placed = false;
           continue;
         }

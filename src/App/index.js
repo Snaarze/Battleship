@@ -23,6 +23,7 @@ export const initialPlayers = () => {
   const jeremy = new Player("jeremy");
 
   jeremy.board.placeShipRandomly();
+
   renderBoard(playerBoard);
   renderPlayerBoard(jeremy, playerBoard);
 
@@ -42,5 +43,3 @@ export const initialPlayers = () => {
 };
 
 initialPlayers();
-
-newGameBtn.addEventListener("click", initialPlayers);
