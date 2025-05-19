@@ -7,24 +7,40 @@
   <title>Document</title>
 </head>
 
-<body class="bg-lime-50">
-  <h1 class="turn-indicator">current Turn : </h1>
+<body>
+  <h1 class=" flex justify-center">current Turn : <span class="turn-indicator"></span> </h1>
   <div class="container">
-    <div>
-      <h1>Player</h1>
-      <h1 class="sunk-ship">
-        <h1>Sunk</h1>
-        <ul class="list-of-sunk-ships">test</ul>
-      </h1>
-      <div class="player-board">
 
-      </div>
 
+    <div class="flex justify-evenly">
+      <h1 class="mb-2 mr-28">Player</h1>
+      <div class=""></div>
+      <h1 class="ml-40">Computer</h1>
     </div>
-    <div>
-      <h1>Computer</h1>
+    <div class="flex justify-around w-42 h-full">
+      <div class="player-board"> </div>
+      <div class="flex flex-col justify-center items-center w-42 gap-4">
+
+        <button class="start-btn text-white bg-blue-400 text-sm px-6 py-2  rounded-md">Start</button>
+        <button class="shuffle-btn bg-black text-white text-xs px-5 py-2 rounded-md border-none">New Game /
+          Shuffle</button>
+      </div>
       <div class="computer-board"></div>
     </div>
+    <div>
+    </div>
+  </div>
+
+  <div class="sunk-ship flex justify-around items-center">
+    <div>
+      <p>Available Ships</p>
+      <ul class="player-list-of-sunk-ships mr-36"></ul>
+    </div>
+    <div>
+      <p>Available Ships</p>
+      <ul class="computer-list-of-sunk-ships ml-32"></ul>
+    </div>
+
   </div>
 </body>
 

@@ -18,7 +18,11 @@ class Gameboard {
     }
   }
 
-  placeShip(length, x, y) {
+  resetBoard() {
+    this.board = [];
+  }
+
+  placeShip(length, x, y, position) {
     let validPlacement = {
       5: [-2, 2],
       4: [-1, 2],
@@ -85,6 +89,9 @@ class Gameboard {
   }
 
   placeShipRandomly() {
+    this.ships = [];
+
+    this.initializedBoard();
     for (let i = 1; i <= 5; i++) {
       let placed = false;
 
