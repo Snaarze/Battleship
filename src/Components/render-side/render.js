@@ -105,9 +105,7 @@ function attack(e, game, player1, player2) {
   currentTurn.textContent = game.getActivePlayer();
   if (
     !e.target.hasAttribute("row") ||
-    game.getActivePlayer() !== player1.name ||
-    isAllShipSunk(player1) ||
-    isAllShipSunk(player2)
+    game.getActivePlayer() !== player1.name
   ) {
     return;
   }
@@ -122,6 +120,13 @@ function attack(e, game, player1, player2) {
     player2.board.getSpecificBoard(row, col).length !== 0 &&
     player2.board.getSpecificBoard(row, col).isSunk()
   ) {
+    document.querySelector(
+      `.${player2.name}-${player2.board.getSpecificBoard(row, col).name}`,
+    ).style.textDecoration = "line-through";
+  }
+
+  if (isAllShipSunk(player1) || isAllShipSunk(player2)) {
+    return alert(game.getActivePlayer());
   }
 
   game.switchTurn();
@@ -143,7 +148,18 @@ function attack(e, game, player1, player2) {
   setTimeout(() => {
     computerBoard.children[attack.x].children[attack.y].textContent =
       player1.board.recieveAttack(attack.x, attack.y);
+    if (
+      player1.board.getSpecificBoard(attack.x, attack.y).length !== 0 &&
+      player1.board.getSpecificBoard(attack.x, attack.y).isSunk()
+    ) {
+      document.querySelector(
+        `.${player1.name}-${player1.board.getSpecificBoard(attack.x, attack.y).name}`,
+      ).style.textDecoration = "line-through";
+    }
 
+    if (isAllShipSunk(player1) || isAllShipSunk(player2)) {
+      return alert(game.getActivePlayer());
+    }
     game.switchTurn();
     currentTurn.textContent = game.getActivePlayer();
   }, 0);

@@ -10,7 +10,7 @@ class Ship {
       5: "Carrier",
       4: "Battleship",
       3: "Cruiser",
-      2: " Submarine",
+      2: "Submarine",
       1: "Destroyer",
     };
 
